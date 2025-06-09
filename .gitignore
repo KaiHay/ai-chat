@@ -12,7 +12,6 @@
 /prisma/db.sqlite
 /prisma/db.sqlite-journal
 db.sqlite
-.chats
 
 # next.js
 /.next/
