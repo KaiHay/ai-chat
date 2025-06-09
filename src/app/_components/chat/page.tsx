@@ -13,12 +13,12 @@ export function Chat() {
                     <div key={message.id} className="mb-4 flex flex-row">
                         <strong>{message.role}: </strong>
                         {message.content}
-                        {message.parts.map((part, index) => {
-                            if (part.type === 'reasoning') 
+                        {/* {message.parts.map((part, index) => {
+                            if (part.type === 'reasoning')
                                 return (
-                                <div key={index}>{part.details.map(detail => detail.type==='text'?detail.text:'<redacted>')}</div>
-                            )
-                        })}
+                                    // <div key={index}>{part.details.map(detail => detail.type === 'text' ? detail.text : '')}</div>
+                                )
+                        })} */}
                         <div className='pl-2'>
                             <button className="text-gray-600 hover:text-red-500" onClick={() => handleDelete(message.id)}>Delete</button>
                         </div>
