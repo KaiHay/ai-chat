@@ -30,9 +30,8 @@ export async function POST(req: Request) {
             })
         }
     });
-    result.consumeStream(); 
 
-    
+
     return result.toDataStreamResponse({
         sendReasoning: true, getErrorMessage: error => {
             if (error == null) {
