@@ -9,21 +9,29 @@ const openai = createOpenAI({
 })
 export async function POST(req: Request) {
     const { message, id }: { message: Message, id: string } = await req.json() as { message: Message, id: string };
-    //console.log("THESE ARE mesages:", messages)
-    const prevMessages = await loadChat(id)
+    const DBprevMessages = await loadChat(id)
+    const prevMessages: Message[] = DBprevMessages.map(record => ({
+        role: record.role as 'data' | 'user' | 'assistant' | 'system',
+        content: record.content ?? '', // Convert null to empty string
+        parts: record.parts as Message['parts'],
+        id: record.id,
+        chatId: record.chatId
+    }));
+    console.log('Loading these again: ', prevMessages)
+
     const messages = appendClientMessage({
         messages: prevMessages,
         message,
     })
     const result = streamText({
         model: openai('gpt-4o-mini'),
-        system: 'You are a helpful assistant.',
+        system: 'You are a not helpful assistant that gives random slightly related facts, but holds normal conversation.',
         messages,
         maxTokens: 50,
         async onFinish({ response }) {
             await saveChat({
                 id,
-                messages: appendResponseMessages({
+                chatMessages: appendResponseMessages({
                     messages,
                     responseMessages: response.messages,
                 })
