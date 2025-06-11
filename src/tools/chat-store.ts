@@ -2,7 +2,7 @@
 import { generateId, type Message } from 'ai';
 
 import { db } from '~/server/db';
-import { eq } from 'drizzle-orm'
+import { eq, asc } from 'drizzle-orm'
 import { chats, messages } from '~/server/db/schema';
 
 export async function createChat(): Promise<typeof chats.$inferInsert> {
@@ -22,7 +22,7 @@ export async function loadChat(id: string): Promise<typeof messages.$inferSelect
   const getMessages = await db.select()
     .from(messages)
     .where(eq(messages.chatId, id))
-    .orderBy(messages.createdAt)
+    .orderBy(asc(messages.createdAt))
   console.log('Getting From DB: ', getMessages)
   return getMessages
 }
@@ -30,23 +30,27 @@ export async function loadChat(id: string): Promise<typeof messages.$inferSelect
 export async function saveChat({ id, chatMessages, }: {
   id: string; chatMessages: Message[];
 }): Promise<void> {
-  await Promise.all(chatMessages.map(async currMessage => {
+  // await Promise.all(chatMessages.map(async currMessage => {
+  for(const message of chatMessages){
+  //chatMessages.forEach((message,i ) => )
+  //for (let i = 0; i < chatMessages.length; i++) 
     await db.insert(messages).values({
-      id: generateId(),
+      id: message.id,
       chatId: id,
-      role: currMessage.role,
-      content: currMessage.content,
-      parts: currMessage.parts
+      role: message.role,
+      content: message.content,
+      parts: message.parts,
+      createdAt: new Date(),
 
     }).onConflictDoUpdate({
       target: messages.id,
       set: {
-        content: currMessage.content,
-        parts: currMessage.parts,
+        content: message.content,
+        parts: message.parts,
       }
     })//.catch((error:) => { throw new Error(error); })
-  })
-  )
+  }
+  
 }
 
 // function getChatFile(id: string): string {

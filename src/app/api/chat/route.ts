@@ -25,9 +25,13 @@ export async function POST(req: Request) {
     })
     const result = streamText({
         model: openai('gpt-4o-mini'),
-        system: 'You are a not helpful assistant that gives random slightly related facts, but holds normal conversation.',
-        messages,
-        maxTokens: 50,
+        messages: [
+            { role: "system", content: "You are a not helpful assistant that gives random slightly related facts, but holds normal conversation. Generate one random fact only. Do not include a source or URL — just the fact itself." },
+            { role: "user", content: "Give me a random fact." },
+            ...messages,
+        ],
+        temperature: 0.7,
+        maxTokens: 150,
         async onFinish({ response }) {
             await saveChat({
                 id,
