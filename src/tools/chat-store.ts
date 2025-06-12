@@ -9,6 +9,7 @@ export async function createChat(): Promise<typeof chats.$inferInsert> {
   const id = generateId(); // generate a unique chat ID
   const madeChat: typeof chats.$inferInsert = {
     id: id,
+    
   }
   const [gotChat] = await db.insert(chats).values(madeChat).returning(); // create an empty chat file
   console.log(gotChat)

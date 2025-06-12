@@ -32,7 +32,8 @@ export const chats = createTable(
     id: d.varchar({ length: 256 }).primaryKey(),
     createdAt: d.timestamp({ withTimezone: true }).default(sql`CURRENT_TIMESTAMP`).notNull(),
     updatedAt: d.timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
-  })
+    userId: d.varchar({length:256})
+  }), (t) => [foreignKey({columns: [t.userId], foreignColumns: [user.id]})]
 )
 export const messages = createTable(
   "messages",
