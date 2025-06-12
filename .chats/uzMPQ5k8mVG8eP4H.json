@@ -1,0 +1,58 @@
+[
+  {
+    "id": "TcEIj9Q3MOugvcGg",
+    "createdAt": "2025-06-09T19:14:21.910Z",
+    "role": "user",
+    "content": "hi",
+    "parts": [
+      {
+        "type": "text",
+        "text": "hi"
+      }
+    ]
+  },
+  {
+    "id": "msg-N2awS5zq35kDQtj1xZYA5fST",
+    "createdAt": "2025-06-09T19:14:22.221Z",
+    "role": "assistant",
+    "content": "Hello! How can I assist you today?",
+    "parts": [
+      {
+        "type": "step-start"
+      },
+      {
+        "type": "text",
+        "text": "Hello! How can I assist you today?"
+      }
+    ],
+    "revisionId": "XTbAZJjAe3MpwcDb"
+  },
+  {
+    "id": "q0ngRiYU3B6eD9e4",
+    "createdAt": "2025-06-09T19:20:25.829Z",
+    "role": "user",
+    "content": "hello",
+    "parts": [
+      {
+        "type": "text",
+        "text": "hello"
+      }
+    ]
+  },
+  {
+    "role": "assistant",
+    "id": "msg-tk1vF8XgwpObvOCF485Vfbef",
+    "createdAt": "2025-06-09T19:20:27.473Z",
+    "content": "Hi again! How can I help you today?",
+    "toolInvocations": [],
+    "parts": [
+      {
+        "type": "step-start"
+      },
+      {
+        "type": "text",
+        "text": "Hi again! How can I help you today?"
+      }
+    ]
+  }
+]

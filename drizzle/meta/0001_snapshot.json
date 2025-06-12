@@ -1,6 +1,6 @@
 {
-  "id": "f7e06386-cba0-4b2e-82fe-8a9b143227cd",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "c664f05e-8d8c-4933-b7fe-a8e270506c59",
+  "prevId": "f7e06386-cba0-4b2e-82fe-8a9b143227cd",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -131,10 +131,30 @@
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": false
+        },
+        "userId": {
+          "name": "userId",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "my-chatbot_chats_userId_my-chatbot_user_id_fk": {
+          "name": "my-chatbot_chats_userId_my-chatbot_user_id_fk",
+          "tableFrom": "my-chatbot_chats",
+          "tableTo": "my-chatbot_user",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
