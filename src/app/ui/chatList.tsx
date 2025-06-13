@@ -9,7 +9,6 @@ import { api } from "~/trpc/react"
 
 
 
-const bgStyle = 'bg-gradient-to-b from-[#0c0c00] to-[#7d1630]'
 export default function ListChats({ chatList }: { chatList?: Chat[] }) {
     const deleteChat = api.chat.deleteChat.useMutation()
     const onClickDel = async (id: string) => {
@@ -18,7 +17,7 @@ export default function ListChats({ chatList }: { chatList?: Chat[] }) {
     }
     return (
         <div className="group fixed top-[50%] left-4 translate-y-[-50%]">
-            <div className="text-white bg-black font-light flex flex-col justify-center items-center overflow-scroll w-[60px] h-[25px] rounded-full transition-all duration-300 ease-in-out group-hover:oveflow-scroll group-hover:w-[150px] group-hover:h-[90vh] group-hover:rounded-lg group-hover:p-2">
+            <div className="text-white  bg-black/25  font-light flex flex-col justify-center items-center overflow-scroll w-[60px] h-[25px] rounded-full transition-all duration-300 ease-in-out group-hover:oveflow-scroll group-hover:w-[150px] group-hover:h-[90vh] group-hover:rounded-lg group-hover:p-2">
                 <div>Chats</div>
                 <div className="hidden group-hover:block">
                     Chat:
