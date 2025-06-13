@@ -20,7 +20,6 @@ export default function ListChats({ chatList }: { chatList?: Chat[] }) {
             <div className="text-white  bg-black/25  font-light flex flex-col justify-center items-center overflow-scroll w-[60px] h-[25px] rounded-full transition-all duration-300 ease-in-out group-hover:oveflow-scroll group-hover:w-[150px] group-hover:h-[90vh] group-hover:rounded-lg group-hover:p-2">
                 <div>Chats</div>
                 <div className="hidden group-hover:block">
-                    Chat:
                     {chatList?.map((chat) => (
                         <div key={chat.id} className='pt-5'>
                             <div className='size-20'>
