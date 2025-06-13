@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { chats } from "~/server/db/schema";
+import { chats, messages } from "~/server/db/schema";
 
 export const chatRouter = createTRPCRouter({
     hello: publicProcedure
@@ -42,6 +42,14 @@ export const chatRouter = createTRPCRouter({
                 where: (user, {eq}) => eq(user.id, input.chatId)
             })
             return messages
+        }),
+    deleteChat: publicProcedure
+        .input(z.object({chatId: z.string()}))
+        .mutation(async ({input, ctx}) => {
+            await ctx.db.delete(messages)
+                .where(eq(messages.chatId, input.chatId))
+            await ctx.db.delete(chats)
+                .where(eq(chats.id, input.chatId))
         })
 
 });

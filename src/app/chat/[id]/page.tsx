@@ -10,6 +10,7 @@ import { api } from '~/trpc/server';
 
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
+    
     const session = await auth.api.getSession({
         headers: await headers()
     })
@@ -34,7 +35,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     console.log("unformatted chats:", chats)
 
 
-    const prevMessages: Message[] = messages.map(record => ({
+    const formatMessages: Message[] = messages.map(record => ({
         role: record.role as 'data' | 'user' | 'assistant' | 'system',
         content: record.content ?? '', // Convert null to empty string
         parts: record.parts as Message['parts'],
@@ -55,7 +56,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         <>
 
             <ListChats chatList={formatChats} />
-            <Chat id={id} initialMessages={prevMessages} />
+            <Chat id={id} initialMessages={formatMessages} />
 
         </>
     )
