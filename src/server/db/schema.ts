@@ -38,7 +38,7 @@ export const chats = createTable(
 export const messages = createTable(
   "messages",
   (d) => ({
-    id: d.uuid('id').primaryKey().defaultRandom(),
+    id: d.varchar({ length: 256 }).primaryKey(),
     createdAt: d.timestamp({ withTimezone: true }).default(sql`CURRENT_TIMESTAMP`).notNull(),
     role: d.varchar({ length: 256 }).notNull(),
     content: d.text({}),
