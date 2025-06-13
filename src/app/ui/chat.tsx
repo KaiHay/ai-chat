@@ -4,6 +4,7 @@ import { useChat, type Message } from '@ai-sdk/react'
 import clsx from 'clsx'
 
 export default function Chat({ id, initialMessages, }: { id?: string | undefined; initialMessages?: Message[] } = {}) {
+   
     const { messages, input, stop, reload, status, handleInputChange, handleSubmit, setMessages } = useChat({
         experimental_throttle: 50,
         id,
@@ -13,14 +14,16 @@ export default function Chat({ id, initialMessages, }: { id?: string | undefined
             return { message: messages[messages.length - 1], id }
         },
     })
+    
     const handleDelete = (id: string) => {
         setMessages(messages.filter(message => message.id !== id))
+    
     }
     return (
         <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#7d1630] to-[#a4a91b] text-white">
 
             <div className="flex flex-col w-full max-w-md mx-auto">
-                <div className="flex flex-col flex-1 overflow-y-auto">
+                <div className="flex flex-col flex-1 overflow-scroll scroll-auto max-h-[80vh]" style={{ overflowAnchor: "auto" }}>
                     {messages.map(message => (
                         <div key={message.id} className="mb-4 flex flex-row">
                             <strong className={clsx('', message.role === 'assistant' ? 'text-' : '')}>{message.role}:  </strong>
