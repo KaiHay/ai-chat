@@ -1,10 +1,11 @@
 import type { Message } from 'ai';
-import { loadChat, loadMessages } from '../../../tools/chat-store';
+import { getAllChats, loadChat, loadMessages } from '../../../tools/chat-store';
 import Chat from '../../ui/chat';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { auth } from '~/lib/auth';
-
+import ListChats from '~/app/ui/chatList';
+import {type Chat as intChat } from '~/app/ui/chatList'
 export default async function Page(props: { params: Promise<{ id: string }> }) {
     const session = await auth.api.getSession({
         headers: await headers()
@@ -21,8 +22,8 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         redirect('/chat')
     }
     const messages = await loadMessages(currChat[0].id); // load the chat messages
-
-
+    const chats= await getAllChats(currChat[0].userId?currChat[0].userId:'')
+    console.log("unformatted chats:", chats)
     const prevMessages: Message[] = messages.map(record => ({
         role: record.role as 'data' | 'user' | 'assistant' | 'system',
         content: record.content ?? '', // Convert null to empty string
@@ -30,6 +31,21 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         id: record.id,
         chatId: record.chatId
     }));
+    const formatChats:intChat[] = chats.map((chat)=>({
+        id:chat.id,
+        createdAt:chat.createdAt,
+        updatedAt:chat.updatedAt,
+        userId:chat.userId
+    }))
+
     console.log('Please just load these: ', id)
-    return <Chat id={id} initialMessages={prevMessages} />; // display the chat
+    return (
+        <>
+
+            <ListChats chatList={formatChats} />
+            <Chat id={id} initialMessages={prevMessages} />
+
+        </>
+    )
+        ; // display the chat
 }

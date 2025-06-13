@@ -2,7 +2,7 @@
 import { generateId, type Message } from 'ai';
 
 import { db } from '~/server/db';
-import { eq, asc } from 'drizzle-orm'
+import { eq, asc, desc } from 'drizzle-orm'
 import { chats, messages } from '~/server/db/schema';
 
 export async function createChat(userId: string): Promise<typeof chats.$inferInsert> {
@@ -30,7 +30,11 @@ export async function loadMessages(id: string): Promise<typeof messages.$inferSe
   console.log('Getting From DB: ', getMessages)
   return getMessages
 }
-//export async function getAllChats(id: string): Promise<>
+export async function getAllChats(id: string): Promise<typeof chats.$inferSelect[]>{
+  if(id=='') return []
+  const getChats = await db.select().from(chats).where(eq(chats.userId, id)).orderBy(desc(chats.createdAt))
+  return getChats
+}
 
 export async function saveChat({ id, chatMessages }: {
   id: string; chatMessages: Message[];
