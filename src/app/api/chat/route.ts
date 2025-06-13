@@ -1,6 +1,6 @@
 import { createOpenAI } from '@ai-sdk/openai';
 import { appendClientMessage, appendResponseMessages, streamText, type Message } from 'ai';
-import { loadChat, loadMessages, saveChat } from '../../../tools/chat-store'
+import { loadMessages, saveChat } from '../../../tools/chat-store'
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;

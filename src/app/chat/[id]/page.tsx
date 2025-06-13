@@ -1,5 +1,5 @@
 import type { Message } from 'ai';
-import { getAllChats, loadChat, loadMessages } from '../../../tools/chat-store';
+import { loadMessages } from '../../../tools/chat-store';
 import Chat from '../../ui/chat';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
@@ -17,7 +17,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 
     const { id } = await props.params; // get the chat ID from the URL
 
-    const currChat = await loadChat(id)
+    const currChat = await api.chat.loadSingleChat({chatId:id})
 
     console.log('CurrentChat: ', currChat)
 
