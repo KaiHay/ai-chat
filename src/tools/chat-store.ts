@@ -30,8 +30,8 @@ export async function loadMessages(id: string): Promise<typeof messages.$inferSe
   console.log('Getting From DB: ', getMessages)
   return getMessages
 }
-export async function getAllChats(id: string): Promise<typeof chats.$inferSelect[]>{
-  if(id=='') return []
+export async function getAllChats(id: string): Promise<typeof chats.$inferSelect[]> {
+  if (id == '') return []
   const getChats = await db.select().from(chats).where(eq(chats.userId, id)).orderBy(desc(chats.createdAt))
   return getChats
 }
@@ -42,9 +42,10 @@ export async function saveChat({ id, chatMessages }: {
   // await Promise.all(chatMessages.map(async currMessage => {
   console.log('Saving to this ID: ', id, ' these messages: ', chatMessages)
   for (const message of chatMessages) {
-    //chatMessages.forEach((message,i ) => )
-    //for (let i = 0; i < chatMessages.length; i++) 
+    console.log('Inserting this: ', message);
+
     await db.insert(messages).values({
+      id: message.id,
       chatId: id,
       role: message.role,
       content: message.content,

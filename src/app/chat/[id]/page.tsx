@@ -1,5 +1,5 @@
 import type { Message } from 'ai';
-import { getAllChats, loadChat, loadMessages } from '../../../tools/chat-store';
+import { loadMessages } from '../../../tools/chat-store';
 import Chat from '../../ui/chat';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
@@ -10,6 +10,7 @@ import { api } from '~/trpc/server';
 
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
+    
     const session = await auth.api.getSession({
         headers: await headers()
     })
@@ -17,7 +18,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 
     const { id } = await props.params; // get the chat ID from the URL
 
-    const currChat = await loadChat(id)
+    const currChat = await api.chat.loadSingleChat({chatId:id})
 
     console.log('CurrentChat: ', currChat)
 
@@ -34,7 +35,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     console.log("unformatted chats:", chats)
 
 
-    const prevMessages: Message[] = messages.map(record => ({
+    const formatMessages: Message[] = messages.map(record => ({
         role: record.role as 'data' | 'user' | 'assistant' | 'system',
         content: record.content ?? '', // Convert null to empty string
         parts: record.parts as Message['parts'],
@@ -55,7 +56,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         <>
 
             <ListChats chatList={formatChats} />
-            <Chat id={id} initialMessages={prevMessages} />
+            <Chat id={id} initialMessages={formatMessages} />
 
         </>
     )
