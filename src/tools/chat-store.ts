@@ -4,7 +4,6 @@ import { generateId, type Message } from 'ai';
 import { db } from '~/server/db';
 import { eq, asc, desc } from 'drizzle-orm'
 import { chats, messages } from '~/server/db/schema';
-import type { UUID } from 'crypto';
 
 export async function createChat(userId: string): Promise<typeof chats.$inferInsert> {
   const id = generateId(); // generate a unique chat ID

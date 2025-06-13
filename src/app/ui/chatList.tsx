@@ -1,8 +1,7 @@
 
 'use client'
 
-import clsx from 'clsx'
-import { useRouter } from 'next/router';
+
 import Link from 'next/link'
 import { type Chat } from '~/tools/types'
 import { api } from "~/trpc/react"
