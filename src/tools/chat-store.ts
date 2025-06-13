@@ -5,11 +5,11 @@ import { db } from '~/server/db';
 import { eq, asc } from 'drizzle-orm'
 import { chats, messages } from '~/server/db/schema';
 
-export async function createChat(): Promise<typeof chats.$inferInsert> {
+export async function createChat(userId: string): Promise<typeof chats.$inferInsert> {
   const id = generateId(); // generate a unique chat ID
   const madeChat: typeof chats.$inferInsert = {
     id: id,
-    
+    userId: userId
   }
   const [gotChat] = await db.insert(chats).values(madeChat).returning(); // create an empty chat file
   console.log(gotChat)
@@ -18,8 +18,11 @@ export async function createChat(): Promise<typeof chats.$inferInsert> {
   }
   return gotChat;
 }
-
-export async function loadChat(id: string): Promise<typeof messages.$inferSelect[]> {
+export async function loadChat(id: string): Promise<typeof chats.$inferSelect[]> {
+  const getChat = await db.select().from(chats).where(eq(chats.id, id))
+  return getChat
+}
+export async function loadMessages(id: string): Promise<typeof messages.$inferSelect[]> {
   const getMessages = await db.select()
     .from(messages)
     .where(eq(messages.chatId, id))
@@ -27,16 +30,17 @@ export async function loadChat(id: string): Promise<typeof messages.$inferSelect
   console.log('Getting From DB: ', getMessages)
   return getMessages
 }
+//export async function getAllChats(id: string): Promise<>
 
-export async function saveChat({ id, chatMessages, }: {
+export async function saveChat({ id, chatMessages }: {
   id: string; chatMessages: Message[];
 }): Promise<void> {
   // await Promise.all(chatMessages.map(async currMessage => {
-  for(const message of chatMessages){
-  //chatMessages.forEach((message,i ) => )
-  //for (let i = 0; i < chatMessages.length; i++) 
+  console.log('Saving to this ID: ', id, ' these messages: ', chatMessages)
+  for (const message of chatMessages) {
+    //chatMessages.forEach((message,i ) => )
+    //for (let i = 0; i < chatMessages.length; i++) 
     await db.insert(messages).values({
-      id: message.id,
       chatId: id,
       role: message.role,
       content: message.content,
@@ -51,7 +55,7 @@ export async function saveChat({ id, chatMessages, }: {
       }
     })//.catch((error:) => { throw new Error(error); })
   }
-  
+
 }
 
 // function getChatFile(id: string): string {

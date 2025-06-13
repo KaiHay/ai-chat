@@ -2,7 +2,7 @@
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
 import { sql } from "drizzle-orm";
-import { foreignKey, index, jsonb, pgTableCreator, uuid, pgTable, text, timestamp, boolean, integer } from "drizzle-orm/pg-core";
+import { foreignKey, index, jsonb, pgTableCreator, text, timestamp, boolean } from "drizzle-orm/pg-core";
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -32,8 +32,8 @@ export const chats = createTable(
     id: d.varchar({ length: 256 }).primaryKey(),
     createdAt: d.timestamp({ withTimezone: true }).default(sql`CURRENT_TIMESTAMP`).notNull(),
     updatedAt: d.timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
-    userId: d.varchar({length:256})
-  }), (t) => [foreignKey({columns: [t.userId], foreignColumns: [user.id]})]
+    userId: d.varchar({ length: 256 })
+  }), (t) => [foreignKey({ columns: [t.userId], foreignColumns: [user.id] })]
 )
 export const messages = createTable(
   "messages",
